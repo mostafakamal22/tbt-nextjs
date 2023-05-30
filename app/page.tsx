@@ -1,3 +1,5 @@
 export default function Home() {
-  return <div>TBT project</div>;
+  return (
+    <div>عبر الحدود للسياحة | إختيار أفضل للسفر و السياحـة حول العالم</div>
+  );
 }
