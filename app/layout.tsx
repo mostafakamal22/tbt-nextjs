@@ -31,8 +31,19 @@ export const metadata: Metadata = {
     "العمرة والحج فى السعودية",
     "تأشيرة العمرة والحج",
   ],
-
-  robots: "index, follow",
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
