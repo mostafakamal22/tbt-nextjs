@@ -25,8 +25,8 @@ export default function AboutUs() {
                 className="mx-auto w-[200px] h-[200px] drop-shadow-lg"
                 src="/icons/about/glasses-vision.svg"
                 alt="Our Vision"
-                width={1000}
-                height={1000}
+                width={200}
+                height={200}
                 loading="lazy"
                 priority={false}
               />
@@ -47,8 +47,8 @@ export default function AboutUs() {
                 className="mx-auto w-[200px] h-[200px] drop-shadow-lg"
                 src="/icons/about/target.svg"
                 alt="Our Goal"
-                width={1000}
-                height={1000}
+                width={200}
+                height={200}
                 loading="lazy"
                 priority={false}
               />
