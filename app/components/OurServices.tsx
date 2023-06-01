@@ -95,8 +95,8 @@ export default function OurServices() {
                   className="mx-auto my-2 w-[200px] h-[200px] drop-shadow-lg"
                   src={service.imageSrc}
                   alt={service.imageAlt}
-                  width={1000}
-                  height={1000}
+                  width={200}
+                  height={200}
                   loading="lazy"
                   priority={false}
                 />
