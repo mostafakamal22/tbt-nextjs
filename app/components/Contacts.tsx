@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import LazyLoad from "react-lazy-load";
 
 type Contact = {
   imageSrc: string;
@@ -188,22 +190,15 @@ export default function Contacts() {
               <h3 className="text-2xl">العنــوان</h3>
               <hr className="w-full" />
               <p className="text-base">DUBAI - UNITED ARAB EMIRATES</p>
-              <iframe
-                title="Trans Border Tourism Address"
-                loading="lazy"
-                data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3607.7677348666284!2d55.35105959999999!3d25.278397599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dc609e002cd%3A0x4f66a6325028b930!2sTrans%20Borders%20Tourism!5e0!3m2!1sen!2seg!4v1672771297534!5m2!1sen!2seg"
-                className="lazy-iframe h-full w-full rounded-lg"
-                allowFullScreen
-              ></iframe>
-              <noscript>
+              <LazyLoad height={150}>
                 <iframe
                   title="Trans Border Tourism Address"
                   loading="lazy"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3607.7677348666284!2d55.35105959999999!3d25.278397599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5dc609e002cd%3A0x4f66a6325028b930!2sTrans%20Borders%20Tourism!5e0!3m2!1sen!2seg!4v1672771297534!5m2!1sen!2seg"
-                  className="lazy-iframe h-full w-full rounded-lg"
+                  className="h-full w-full rounded-lg"
                   allowFullScreen
                 ></iframe>
-              </noscript>
+              </LazyLoad>
             </div>
           </div>
         </div>
