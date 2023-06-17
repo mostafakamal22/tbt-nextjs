@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import "./globals.css";
+import "@/public/styles/globals.css";
 import { Tajawal } from "next/font/google";
 
 const tajwal = Tajawal({

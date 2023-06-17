@@ -1,40 +1,29 @@
-import Stripe from "stripe";
-import { buffer } from "micro";
-import Cors from "micro-cors";
-import { NextApiRequest, NextApiResponse } from "next";
+import { stripe } from "@/libs/stripe";
+// import { buffer } from "micro";
+// import Cors from "micro-cors";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+// const cors = Cors({
+//   allowMethods: ["POST", "HEAD"],
+// });
 
-// Stripe requires the raw body to construct the event.
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-const cors = Cors({
-  allowMethods: ["POST", "HEAD"],
-});
-
-const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+export async function POST(req: Request) {
   if (req.method === "POST") {
-    const buf = await buffer(req);
-    const signature = req.headers["stripe-signature"];
+    const body = await req.text();
+    const signature = headers().get("stripe-signature");
 
     let event;
     try {
-      event = stripe.webhooks.constructEvent(
-        buf.toString(),
-        signature,
-        webhookSecret
-      );
-    } catch (err) {
+      if (!signature || !webhookSecret) return;
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    } catch (err: any) {
       // On error, log and return the error message.
       console.log(`❌ Error message: ${err.message}`);
-      res.status(400).send(`Webhook Error: ${err.message}`);
-      return;
+
+      return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
     }
 
     // Successfully constructed event.
@@ -65,11 +54,11 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // Return a response to acknowledge receipt of the event.
-    res.json({ received: true });
+    return NextResponse.json({ received: true });
   } else {
-    res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    return new NextResponse("Method Not Allowed", {
+      headers: { Allow: "POST" },
+      status: 405,
+    });
   }
-};
-
-export default cors(webhookHandler);
+}
