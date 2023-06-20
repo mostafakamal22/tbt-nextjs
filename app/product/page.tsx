@@ -37,7 +37,7 @@ export default function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />

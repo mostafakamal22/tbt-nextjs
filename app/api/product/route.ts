@@ -1,5 +1,5 @@
 import { stripe } from "@/libs/stripe";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 const calculateOrderAmount = (items: any) => {
@@ -10,13 +10,13 @@ const calculateOrderAmount = (items: any) => {
   return 1400;
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextApiRequest) {
   const { items } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
-    currency: "eur",
+    currency: "aed",
     automatic_payment_methods: {
       enabled: true,
     },

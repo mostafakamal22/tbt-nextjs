@@ -3,6 +3,7 @@ import { stripe } from "@/libs/stripe";
 // import Cors from "micro-cors";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -31,19 +32,19 @@ export async function POST(req: Request) {
 
     switch (event.type) {
       case "payment_intent.succeeded": {
-        const paymentIntent = event.data.object;
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log(`PaymentIntent status: ${paymentIntent.status}`);
         break;
       }
       case "payment_intent.payment_failed": {
-        const paymentIntent = event.data.object;
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log(
           `❌ Payment failed: ${paymentIntent.last_payment_error?.message}`
         );
         break;
       }
       case "charge.succeeded": {
-        const charge = event.data.object;
+        const charge = event.data.object as Stripe.Charge;
         console.log(`Charge id: ${charge.id}`);
         break;
       }

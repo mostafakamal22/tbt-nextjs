@@ -1,12 +1,15 @@
 "use client";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import {
   PaymentElement,
   LinkAuthenticationElement,
   useStripe,
   useElements,
+  AddressElement,
 } from "@stripe/react-stripe-js";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
+
+import styles from "@/public/styles/stripe.module.css";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -47,7 +50,7 @@ export default function CheckoutForm() {
     });
   }, [stripe]);
 
-  const handleSubmit = async (e: FormEventHandler<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -62,7 +65,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/paymentSuccess",
       },
     });
 
@@ -85,15 +88,33 @@ export default function CheckoutForm() {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <AddressElement
+        options={{
+          mode: "shipping",
+          blockPoBox: true,
+          fields: {
+            phone: "always",
+          },
+          validation: {
+            phone: {
+              required: "always",
+            },
+          },
+        }}
+      />
       <LinkAuthenticationElement
         id="link-authentication-element"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.value.email)}
       />
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+
+      <PaymentElement id="payment-elemnt" options={paymentElementOptions} />
+      <button
+        disabled={isLoading || !stripe || !elements}
+        className={styles.button}
+      >
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? <div className={styles.spinner}></div> : "Pay now"}
         </span>
       </button>
       {/* Show any error or success messages */}
