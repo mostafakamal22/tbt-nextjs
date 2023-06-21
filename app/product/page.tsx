@@ -19,7 +19,9 @@ export default function App() {
     fetch("/api/product", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      body: JSON.stringify({
+        items: [{ id: "price_1NK69kLMgcW9jIdq1QR64C0W" }],
+      }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret))
@@ -29,7 +31,8 @@ export default function App() {
   }, []);
 
   const appearance = {
-    theme: "stripe",
+    theme: "flat",
+    variables: { colorPrimaryText: "#262626" },
   };
   const options: StripeElementsOptions = {
     clientSecret,

@@ -91,7 +91,7 @@ export default function CheckoutForm() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <AddressElement
         options={{
-          mode: "shipping",
+          mode: "billing",
           blockPoBox: true,
           fields: {
             phone: "always",
