@@ -1,6 +1,5 @@
 import { stripe } from "@/libs/stripe";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const calculateOrderAmount = (items: any) => {
   console.log(items);
@@ -10,8 +9,13 @@ const calculateOrderAmount = (items: any) => {
   return 1400;
 };
 
-export async function POST(req: NextApiRequest) {
-  const { items } = req.body;
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const { items } = body;
+
+  if (!items) {
+    return new NextResponse("Please provide item to purchase", { status: 400 });
+  }
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({

@@ -16,28 +16,22 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Please provide item to purchase", { status: 400 });
   }
 
-  if (req.method === "POST") {
-    try {
-      // Create Checkout Sessions from body params.
-      const session = await stripe.checkout.sessions.create({
-        line_items: [...services],
-        mode: "payment",
-        success_url: `${origin}/services/?success=true`,
-        cancel_url: `${origin}/services/?canceled=true`,
-      });
-
-      if (session?.url) {
-        return NextResponse.json(session.url);
-      }
-    } catch (err: any) {
-      NextResponse.json(err.message, { status: err.statusCode || 500 });
-    }
-  } else {
-    return new NextResponse("Method Not Allowed", {
-      headers: {
-        allow: "POST",
+  try {
+    // Create Checkout Sessions from body params.
+    const session = await stripe.checkout.sessions.create({
+      line_items: [...services],
+      mode: "payment",
+      phone_number_collection: {
+        enabled: true,
       },
-      status: 405,
+      success_url: `${origin}/services/?success=true`,
+      cancel_url: `${origin}/services/?canceled=true`,
     });
+
+    if (session?.url) {
+      return NextResponse.json(session.url);
+    }
+  } catch (err: any) {
+    NextResponse.json(err.message, { status: err.statusCode || 500 });
   }
 }

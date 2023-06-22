@@ -40,7 +40,7 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className="flex h-screen justify-center items-center">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />

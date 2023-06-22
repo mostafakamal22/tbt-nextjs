@@ -1,14 +1,17 @@
 "use client";
 import { FormEvent } from "react";
-
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import PaymentSuccess from "@/components/PaymentSuccess";
 import PaymentCancelled from "@/components/PaymentCancelled";
 import { useSearchParams } from "next/navigation";
+import { Metadata } from "next";
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
+export const metadata: Metadata = {
+  title: "Our Services",
+  description: "Travelling can not be easier",
+};
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
@@ -26,7 +29,7 @@ export default function Services() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        services: [{ price: "price_1NK69kLMgcW9jIdq1QR64C0W", quantity: 1 }],
+        services: [{ price: "price_1NK69kLMgcW9jIdq1QR64C0W", quantity: 2 }],
       }),
     })
       .then((res) => res.json())
@@ -40,16 +43,18 @@ export default function Services() {
   if (cancelledPayemnt) return <PaymentCancelled />;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <section className="bg-white flex flex-col w-[400px] h-[112px] border-r-4 justify-between">
-        <button
-          className="h-10 bg-blue-500 rounded-lg text-white border-none font-bold cursor-pointer transition-all shadow-sm hover:opacity-80"
-          type="submit"
-          role="link"
-        >
-          Checkout
-        </button>
-      </section>
-    </form>
+    <div className="flex justify-center items-center h-screen">
+      <form onSubmit={handleSubmit}>
+        <section className="bg-white flex flex-col w-[400px] h-[112px] border-r-4 justify-between">
+          <button
+            className="h-10 bg-blue-500 rounded-lg text-white border-none font-bold cursor-pointer transition-all shadow-sm hover:opacity-80"
+            type="submit"
+            role="link"
+          >
+            Checkout
+          </button>
+        </section>
+      </form>
+    </div>
   );
 }
