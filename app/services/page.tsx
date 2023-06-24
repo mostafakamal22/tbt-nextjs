@@ -1,6 +1,7 @@
 import { getStripePrices } from "@/actions/getStripePrices";
 import { getStripeServices } from "@/actions/getStripeServices";
 import Services from "@/components/Services";
+import { findAndFormatPrice } from "@/helpers/findAndFormatPrice";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -12,8 +13,12 @@ export const metadata: Metadata = {
 export const revalidate = 3600; // revalidate every hour
 
 export default async function Page() {
-  const services = await getStripeServices();
-  const prices = await getStripePrices();
+  // Initiate both requests in parallel
+  const servicesData = getStripeServices();
+  const pricesData = getStripePrices();
+
+  // Wait for the promises to resolve
+  const [services, prices] = await Promise.all([servicesData, pricesData]);
 
   return (
     <>
@@ -29,11 +34,9 @@ export default async function Page() {
               height={250}
             />
             <p>
-              {
-                prices.find(
-                  (price) => price.id === service.default_price?.toString()
-                )?.unit_amount
-              }
+              {service?.default_price
+                ? findAndFormatPrice(service?.default_price?.toString(), prices)
+                : null}
             </p>
           </div>
         ))}
