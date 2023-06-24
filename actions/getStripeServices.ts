@@ -3,6 +3,7 @@ import { Stripe } from "stripe";
 
 export async function getStripeServices(): Promise<Stripe.Product[]> {
   try {
+    console.log("get services");
     const res = await stripe.products.list({ active: true });
     return res.data;
   } catch (error) {

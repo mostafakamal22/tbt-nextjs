@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   description: "Travelling can not be easier",
 };
 
+export const revalidate = 3600; // revalidate every hour
+
 export default async function Page() {
   const services = await getStripeServices();
 
