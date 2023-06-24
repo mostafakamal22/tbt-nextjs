@@ -1,6 +1,8 @@
+import { getStripePrices } from "@/actions/getStripePrices";
 import { getStripeServices } from "@/actions/getStripeServices";
 import Services from "@/components/Services";
 import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Our Services",
@@ -11,6 +13,7 @@ export const revalidate = 3600; // revalidate every hour
 
 export default async function Page() {
   const services = await getStripeServices();
+  const prices = await getStripePrices();
 
   return (
     <>
@@ -19,7 +22,19 @@ export default async function Page() {
           <div key={service.id}>
             <p>{service.name}</p>
             <p>{service.description}</p>
-            <p>{service.default_price?.toString()}</p>
+            <Image
+              src={service.images[0]}
+              alt={service.name}
+              width={250}
+              height={250}
+            />
+            <p>
+              {
+                prices.find(
+                  (price) => price.id === service.default_price?.toString()
+                )?.unit_amount
+              }
+            </p>
           </div>
         ))}
       </div>
