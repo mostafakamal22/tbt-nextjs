@@ -11,7 +11,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
-export default function App() {
+export default function Page() {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
