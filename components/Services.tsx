@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import PaymentSuccess from "@/components/PaymentSuccess";
 import PaymentCancelled from "@/components/PaymentCancelled";
 import { useSearchParams } from "next/navigation";
+import { postData } from "@/helpers/postData";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -17,20 +18,19 @@ export default function Services() {
   const successPayemnt = query.get("success");
   const cancelledPayemnt = query.get("canceled");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    fetch("/api/services", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        services: [{ price: "price_1NK69kLMgcW9jIdq1QR64C0W", quantity: 2 }],
-      }),
-    })
-      .then((res) => res.json())
-      .then((sessionUrl) => {
-        console.log(sessionUrl);
-        router.push(sessionUrl);
+
+    try {
+      const sessionURL = await postData({
+        url: "/api/services",
+        data: [{ price: "price_1NMcOqLMgcW9jIdqWTxUQY4d", quantity: 2 }],
       });
+      console.log(sessionURL);
+      router.push(sessionURL);
+    } catch (error) {
+      if (error) return alert((error as Error).message);
+    }
   };
 
   if (successPayemnt) return <PaymentSuccess />;
