@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { FaTimesCircle } from "react-icons/fa";
 
 export default function PaymentCancelled() {
