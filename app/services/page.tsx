@@ -1,9 +1,8 @@
 import { getStripePrices } from "@/actions/getStripePrices";
 import { getStripeServices } from "@/actions/getStripeServices";
-import Services from "@/components/Services";
-import { findAndFormatPrice } from "@/helpers/findAndFormatPrice";
+import ServicesGrid from "@/components/ServicesGrid";
+import ServicesHeader from "@/components/ServicesHeader";
 import { Metadata } from "next";
-import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Our Services",
@@ -21,27 +20,9 @@ export default async function Page() {
   const [services, prices] = await Promise.all([servicesData, pricesData]);
 
   return (
-    <>
-      <div>
-        {services.map((service) => (
-          <div key={service.id}>
-            <p>{service.name}</p>
-            <p>{service.description}</p>
-            <Image
-              src={service.images[0]}
-              alt={service.name}
-              width={250}
-              height={250}
-            />
-            <p>
-              {service?.default_price
-                ? findAndFormatPrice(service?.default_price?.toString(), prices)
-                : null}
-            </p>
-          </div>
-        ))}
-      </div>
-      <Services />
-    </>
+    <main className="p-2 sm:p-4 md:p-10">
+      <ServicesHeader />
+      <ServicesGrid prices={prices} services={services} />
+    </main>
   );
 }
