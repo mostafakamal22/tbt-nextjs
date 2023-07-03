@@ -8,7 +8,7 @@ export const postData = async ({
   data,
 }: {
   url: string;
-  data?: Service[];
+  data?: Service;
 }) => {
   console.log("posting,", url, data);
 

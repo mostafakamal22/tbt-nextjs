@@ -28,9 +28,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
     try {
       const sessionURL = await postData({
         url: "/api/services",
-        data: [
-          { price: service?.default_price?.toString() ?? "", quantity: 1 },
-        ],
+        data: { price: service?.default_price?.toString() ?? "", quantity: 1 },
       });
       console.log(sessionURL);
       router.push(sessionURL);
