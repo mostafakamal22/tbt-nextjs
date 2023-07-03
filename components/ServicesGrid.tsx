@@ -4,8 +4,8 @@ import Stripe from "stripe";
 import ServiceCard from "./ServiceCard";
 import { useSearchParams } from "next/navigation";
 import Modal from "./Modal";
-import PaymentSuccess from "./PaymentSuccess";
-import PaymentCancelled from "./PaymentCancelled";
+import SuccessMsg from "./SuccessMsg";
+import ErrorMsg from "./ErrorMsg";
 
 interface ServicesGridProps {
   services: Stripe.Product[];
@@ -34,13 +34,19 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ services, prices }) => {
     <>
       {successPayemnt && (
         <Modal isOpen={isOpen} onChange={onChange}>
-          <PaymentSuccess />
+          <SuccessMsg
+            title="Successful Payment!"
+            desc="Your payment has been successful."
+          />
         </Modal>
       )}
 
       {cancelledPayemnt && (
         <Modal isOpen={isOpen} onChange={onChange}>
-          <PaymentCancelled />
+          <ErrorMsg
+            title="Payment Cancelled!"
+            desc="Your payment has been cancelled."
+          />
         </Modal>
       )}
 
