@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import "@/public/styles/globals.css";
 import { Tajawal } from "next/font/google";
+import ModalProvider from "@/providers/modalProvider";
 
 const tajwal = Tajawal({
   weight: ["300", "400", "700"],
@@ -56,7 +57,10 @@ export default function RootLayout({
       className="scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent bg-slate-900"
       lang="ar"
     >
-      <body className={tajwal.className}>{children}</body>
+      <body className={tajwal.className}>
+        <ModalProvider />
+        {children}
+      </body>
     </html>
   );
 }
