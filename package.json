@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.1",
     "@radix-ui/colors": "^1.0.0",
     "@radix-ui/react-dialog": "^1.0.4",
     "@stripe/react-stripe-js": "^2.1.0",
@@ -25,12 +26,14 @@
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.1",
     "react-icons": "^4.9.0",
     "react-lazy-load": "^4.0.1",
     "stripe": "^12.8.0",
     "tailwind-scrollbar": "^3.0.4",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
+    "zod": "^3.21.4",
     "zustand": "^4.3.9"
   },
   "devDependencies": {
