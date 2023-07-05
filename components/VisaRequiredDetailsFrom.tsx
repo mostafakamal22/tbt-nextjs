@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserFormSchemaWithAddress } from "@/zodSchemas/visaSchema";
-import type { UserFormWithAddress } from "@/zodSchemas/visaSchema";
+import { VisaSchema } from "@/zodSchemas/visaSchema";
+import type { VisaSchemaType } from "@/zodSchemas/visaSchema";
 
 export default function Form() {
   const {
@@ -9,12 +9,11 @@ export default function Form() {
     handleSubmit,
     trigger,
     formState: { errors, isValid },
-  } = useForm<UserFormWithAddress>({
-    resolver: zodResolver(UserFormSchemaWithAddress),
+  } = useForm<VisaSchemaType>({
+    resolver: zodResolver(VisaSchema),
   });
 
-  const onSubmit: SubmitHandler<UserFormWithAddress> = (data) => {
-    console.log(data.name);
+  const onSubmit: SubmitHandler<VisaSchemaType> = (data) => {
     console.log(data);
   };
 

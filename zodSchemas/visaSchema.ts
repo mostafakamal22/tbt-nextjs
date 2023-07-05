@@ -1,78 +1,71 @@
 import { z } from "zod";
 
-export const BasicUserSchema = z.object({
-  name: z
+export const VisaSchema = z.object({
+  passportNumber: z
     .string()
     .trim()
-    .min(2, { message: "Name must be 2 or more characters long" }),
-  username: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .min(4, { message: "Username must be 4 or more characters long" }),
-  email: z.string().email().trim().toLowerCase(),
-  phone: z
-    .string()
-    .min(10, { message: "Phone numbers are a minimum of 10 digits" }),
-  // .regex(/^[0-9]+$/, { message: "Only numbers are allowed" })
-  // .length(10, { message: "Ten numbers are required" })
-  // .transform(val => `${val.slice(0, 3)}-${val.slice(3, 6)}-${val.slice(6)}`),
-  //website: z.string().trim().toLowerCase().url().optional(),
-  website: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .min(5, { message: "URLs must be a minimum of 5 characters" })
-    .refine((val) => val.indexOf(".") !== -1, { message: "Invalid URL" })
-    .optional(),
-  company: z.object({
-    name: z
+    .regex(/^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/, {
+      message: "Not a valid passport number",
+    }),
+  travelDates: z
+    .object({
+      departure: z
+        .date()
+        .min(new Date(), { message: "Departure date must be in the future" }),
+      return: z.date(),
+    })
+    .refine(
+      (data) => {
+        const { departure, return: returnDate } = data;
+        if (departure && returnDate) {
+          // Convert dates to UTC to avoid issues with time zones
+          const departureUTC = Date.UTC(
+            departure.getFullYear(),
+            departure.getMonth(),
+            departure.getDate()
+          );
+          const returnUTC = Date.UTC(
+            returnDate.getFullYear(),
+            returnDate.getMonth(),
+            returnDate.getDate()
+          );
+
+          return returnUTC > departureUTC;
+        }
+        return true;
+      },
+      {
+        message: "Return date must be after departure date",
+      }
+    ),
+  flightDetails: z.object({
+    airline: z
       .string()
       .trim()
-      .min(5, { message: "Company name must be 5 or more characters long" }),
-    catchPhrase: z.string().optional(),
+      .max(100, { message: "Airline name must be less than 100 characters" }),
+    flightNumber: z
+      .string()
+      .trim()
+      .max(10, { message: "Flight number must be less than 10 characters" }),
   }),
-});
-
-const UserAddressSchema = z.object({
-  street: z
+  personalInfo: z.object({
+    fullName: z
+      .string()
+      .trim()
+      .min(10, { message: "Username must be 10 or more characters long" })
+      .max(100, { message: "Full name must be less than 100 characters" }),
+    dateOfBirth: z
+      .date()
+      .max(new Date(), { message: "Date of birth must be in the past" }),
+  }),
+  employmentInfo: z.object({
+    employmentStatus: z.enum(["employed", "unemployed", "student", "retired"]),
+    income: z.number().min(0, { message: "Income must be a positive number" }),
+  }),
+  purposeOfVisit: z
     .string()
     .trim()
-    .min(5, { message: "Street must be 5 or more characters long" }),
-  suite: z.string().trim().optional(),
-  city: z
-    .string()
-    .trim()
-    .min(2, { message: "City must be 2 or more characters long" }),
-  zipcode: z
-    .string()
-    .regex(/^\d{5}(?:[-\s]\d{4})?$/, {
-      message: "Must be 5 digit zip. Optional 4 digit extension allowed.",
-    }),
+    .max(100, { message: "Purpose of visit must be less than 100 characters" }),
 });
 
-const UserAddressSchemaWithGeo = UserAddressSchema.extend({
-  geo: z.object({
-    lat: z.string(),
-    lng: z.string(),
-  }),
-});
-
-const HasIDSchema = z.object({ id: z.number().int().positive() });
-
-export const UserFormSchemaWithAddress = BasicUserSchema.extend({
-  address: UserAddressSchema,
-});
-
-export const UserSchemaWithAddress =
-  UserFormSchemaWithAddress.merge(HasIDSchema);
-
-export const UserSchemaWithGeo = BasicUserSchema.extend({
-  address: UserAddressSchemaWithGeo,
-}).merge(HasIDSchema);
-
-export type UserFormWithAddress = z.infer<typeof UserFormSchemaWithAddress>;
-
-export type UserWithAddress = z.infer<typeof UserSchemaWithAddress>;
-
-export type UserWithGeo = z.infer<typeof UserSchemaWithGeo>;
+export type VisaSchemaType = z.infer<typeof VisaSchema>;
