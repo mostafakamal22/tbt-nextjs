@@ -6,8 +6,8 @@ interface FormInputProps
   name: string;
   label: string;
   placeholder: string;
-  successMsg: string;
-  errorMsg: string;
+  successMsg?: string;
+  errorMsg?: string;
   isError: boolean;
   isSuccess: boolean;
 }

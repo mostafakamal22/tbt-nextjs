@@ -1,12 +1,42 @@
 import { z } from "zod";
 
 export const VisaSchema = z.object({
-  passportNumber: z
-    .string()
-    .trim()
-    .regex(/^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/, {
-      message: "Not a valid passport number",
-    }),
+  passportInfo: z
+    .object({
+      passportNumber: z
+        .string()
+        .trim()
+        .regex(/^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/, {
+          message: "Not a valid passport number",
+        }),
+      dateOfIssuance: z.date(),
+      expirationDate: z.date(),
+    })
+    .refine(
+      (data) => {
+        const { dateOfIssuance, expirationDate } = data;
+        if (dateOfIssuance && expirationDate) {
+          // Convert dates to UTC to avoid issues with time zones
+          const dateOfIssuanceUTC = Date.UTC(
+            dateOfIssuance.getFullYear(),
+            dateOfIssuance.getMonth(),
+            dateOfIssuance.getDate()
+          );
+          const expirationUTC = Date.UTC(
+            expirationDate.getFullYear(),
+            expirationDate.getMonth(),
+            expirationDate.getDate()
+          );
+
+          return expirationUTC > dateOfIssuanceUTC;
+        }
+        return true;
+      },
+      {
+        message: "Return date must be after date of Issuance",
+      }
+    ),
+
   travelDates: z
     .object({
       departure: z
