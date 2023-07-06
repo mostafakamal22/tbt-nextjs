@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Stripe from "stripe";
 import ErrorMsg from "./ErrorMsg";
 import useModal from "@/hooks/useModal";
+import VisaRequiredDetailsFrom from "./VisaRequiredDetailsFrom";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -28,6 +29,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
   if (!servicePrice) return null;
 
   const handleSubmit = async () => {
+    const visaFrom = <VisaRequiredDetailsFrom />;
+    setChildren(visaFrom);
+
+    openModal();
+
+    return;
+
     try {
       const sessionURL = await postData({
         url: "/api/services",
