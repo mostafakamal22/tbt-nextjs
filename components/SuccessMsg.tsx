@@ -5,7 +5,7 @@ interface SuccessMsgProps {
   desc: string;
 }
 
-const PaymentSuccess: React.FC<SuccessMsgProps> = ({ title, desc }) => {
+const SuccessMsg: React.FC<SuccessMsgProps> = ({ title, desc }) => {
   return (
     <div className="flex justify-center items-center text-slate-600 min-h-[50vh]">
       <div className="flex flex-col items-center justify-center">
@@ -17,4 +17,4 @@ const PaymentSuccess: React.FC<SuccessMsgProps> = ({ title, desc }) => {
   );
 };
 
-export default PaymentSuccess;
+export default SuccessMsg;

@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({
         {children}
         <Dialog.Close asChild>
           <button
-            className="absolute right-2 top-2 hover:opacity-90 focus:opacity-90 focus-visible:outline-none"
+            className="absolute right-1 top-3 hover:opacity-90 focus:opacity-90 focus-visible:outline-none"
             aria-label="Close"
           >
             <AiFillCloseCircle className="h-6 w-6 text-slate-600" size={16} />

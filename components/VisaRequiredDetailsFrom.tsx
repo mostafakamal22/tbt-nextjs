@@ -3,8 +3,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { VisaSchema, employmentStatus } from "@/zodSchemas/visaSchema";
 import type { VisaSchemaType } from "@/zodSchemas/visaSchema";
 import FormInput from "./FormInput";
+import useVisaDetails from "@/hooks/useVisaDetails";
+import useModal from "@/hooks/useModal";
+import SuccessMSG from "./SuccessMsg";
 
 export default function VisaRequiredDetailsFrom() {
+  const { openModal, setChildren } = useModal();
+
+  const {
+    setPassportInfo,
+    setTravelDates,
+    setFlightDetails,
+    setPersonalInfo,
+    setEmploymentInfo,
+    setPurposeOfVisit,
+  } = useVisaDetails();
   const {
     register,
     handleSubmit,
@@ -24,6 +37,29 @@ export default function VisaRequiredDetailsFrom() {
 
   const onSubmit: SubmitHandler<VisaSchemaType> = (data) => {
     console.log(data);
+    const result = VisaSchema.safeParse(data);
+    console.log(result.success);
+
+    if (result.success) {
+      setPassportInfo(data.passportInfo);
+      setTravelDates(data.travelDates);
+      setFlightDetails(data.flightDetails);
+      setPersonalInfo(data.personalInfo);
+      setEmploymentInfo(data.employmentInfo);
+      setPurposeOfVisit(data.purposeOfVisit);
+
+      const successMsg = (
+        <SuccessMSG
+          title="Details Saved Successfully!"
+          desc="Now you can Book a Visa."
+        />
+      );
+      setChildren(successMsg);
+
+      openModal();
+    } else {
+      console.log(result.error.issues);
+    }
   };
 
   return (
@@ -38,6 +74,11 @@ export default function VisaRequiredDetailsFrom() {
           </span>{" "}
           Needed Details:-
         </h2>
+        <p className="text-sm bg-yellow-50 text-yellow-900 p-2 rounded shadow">
+          Your data will be automatically erased upon refreshing your browser or
+          after the payment process is complete, so you can trust that your
+          privacy is protected.
+        </p>
 
         <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
           **Passport information
@@ -274,10 +315,10 @@ export default function VisaRequiredDetailsFrom() {
 
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:cursor-not-allowed"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 mr-2 mb-2 focus:outline-none   disabled:cursor-not-allowed"
           disabled={isSubmitting || isLoading}
         >
-          Submit
+          Save and Continue
         </button>
       </form>
     </>

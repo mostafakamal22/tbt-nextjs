@@ -8,6 +8,8 @@ import Stripe from "stripe";
 import ErrorMsg from "./ErrorMsg";
 import useModal from "@/hooks/useModal";
 import VisaRequiredDetailsFrom from "./VisaRequiredDetailsFrom";
+import useVisaDetails from "@/hooks/useVisaDetails";
+import { VisaSchema, VisaSchemaType } from "@/zodSchemas/visaSchema";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -22,6 +24,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
   const { openModal, setChildren } = useModal();
   const router = useRouter();
 
+  const {
+    passportInfo,
+    travelDates,
+    flightDetails,
+    personalInfo,
+    employmentInfo,
+    purposeOfVisit,
+  } = useVisaDetails();
+
   const servicePrice = service?.default_price
     ? findAndFormatPrice(service?.default_price?.toString(), prices)
     : null;
@@ -29,17 +40,57 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
   if (!servicePrice) return null;
 
   const handleSubmit = async () => {
-    const visaFrom = <VisaRequiredDetailsFrom />;
-    setChildren(visaFrom);
+    const visaDetails: VisaSchemaType = {
+      passportInfo,
+      travelDates,
+      flightDetails,
+      personalInfo,
+      employmentInfo,
+      purposeOfVisit,
+    };
+    const validateData = VisaSchema.safeParse(visaDetails);
+    console.log(validateData);
 
-    openModal();
+    if (!validateData?.success) {
+      const visaFrom = <VisaRequiredDetailsFrom />;
+      setChildren(visaFrom);
 
-    return;
+      openModal();
+      return;
+    }
+
+    const metaData = Object.entries(visaDetails).reduce<{ [k: string]: any }>(
+      (acc, [key, value]) => {
+        if (typeof value === "object" && !Array.isArray(value)) {
+          acc = {
+            ...acc,
+            ...Object.entries(value).reduce<{ [k: string]: any }>(
+              (nestedAcc, [nestedKey, nestedValue]) => {
+                nestedAcc[`${nestedKey}`] = nestedValue;
+                return nestedAcc;
+              },
+              {}
+            ),
+          };
+        } else {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+
+    console.log(metaData);
 
     try {
       const sessionURL = await postData({
         url: "/api/services",
-        data: { price: service?.default_price?.toString() ?? "", quantity: 1 },
+        data: {
+          price: service?.default_price?.toString() ?? "",
+          quantity: 1,
+          metaData: { ...metaData },
+          type: service.metadata?.type,
+        },
       });
 
       router.push(sessionURL);

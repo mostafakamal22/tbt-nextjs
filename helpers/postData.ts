@@ -1,6 +1,8 @@
-type Service = {
+export type Service = {
   price: string;
   quantity: number;
+  metaData: { [k: string]: string };
+  type: "ticket" | "visa" | string;
 };
 
 export const postData = async ({

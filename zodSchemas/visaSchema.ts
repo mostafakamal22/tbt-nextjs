@@ -107,7 +107,8 @@ export const VisaSchema = z.object({
   employmentInfo: z.object({
     employmentStatus: z.enum(employmentStatus),
     income: z.preprocess((arg) => {
-      if (typeof arg == "string" || arg instanceof Number) return Number(arg);
+      if (typeof arg == "string" || arg instanceof Number) return +arg;
+      else return arg;
     }, z.number().min(1, { message: "Income must be a positive number" })),
   }),
   purposeOfVisit: z
