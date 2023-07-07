@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+export const employmentStatus = [
+  "employed",
+  "unemployed",
+  "student",
+  "retired",
+] as const;
+
 export const VisaSchema = z.object({
   passportInfo: z
     .object({
@@ -98,10 +105,10 @@ export const VisaSchema = z.object({
     }, z.date().max(new Date(), { message: "Date of birth must be in the past" })),
   }),
   employmentInfo: z.object({
-    employmentStatus: z.enum(["employed", "unemployed", "student", "retired"]),
+    employmentStatus: z.enum(employmentStatus),
     income: z.preprocess((arg) => {
       if (typeof arg == "string" || arg instanceof Number) return Number(arg);
-    }, z.number().min(1, { message: "Income must be one or bigger" })),
+    }, z.number().min(1, { message: "Income must be a positive number" })),
   }),
   purposeOfVisit: z
     .string()

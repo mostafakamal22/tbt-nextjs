@@ -76,7 +76,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
         </div>
         <div className="mt-6 flex items-center justify-between">
           <div className="flex items-center">
-            <p className="text-xl font-semibold text-gray-900">
+            <p className="text-xl font-semibold text-white bg-gradient-to-r to-emerald-600 from-sky-400 p-2 rounded shadow">
               {servicePrice}
             </p>
           </div>

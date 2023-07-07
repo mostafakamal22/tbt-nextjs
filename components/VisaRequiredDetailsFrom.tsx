@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VisaSchema } from "@/zodSchemas/visaSchema";
+import { VisaSchema, employmentStatus } from "@/zodSchemas/visaSchema";
 import type { VisaSchemaType } from "@/zodSchemas/visaSchema";
 import FormInput from "./FormInput";
 
@@ -14,6 +14,9 @@ export default function VisaRequiredDetailsFrom() {
     defaultValues: {
       passportInfo: {
         passportNumber: "Passport ID",
+      },
+      employmentInfo: {
+        employmentStatus: "employed",
       },
     },
     mode: "all",
@@ -29,6 +32,13 @@ export default function VisaRequiredDetailsFrom() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col max-w-3xl gap-2 mx-auto text-gray-600 text-left py-2"
       >
+        <h2 className="mb-4 text-2xl font-extrabold text-gray-900 md:text-3xl lg:text-4xl">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+            Visa Request
+          </span>{" "}
+          Needed Details:-
+        </h2>
+
         <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
           **Passport information
         </h5>
@@ -151,22 +161,13 @@ export default function VisaRequiredDetailsFrom() {
           type="string"
           placeholder="Type Airline Name"
           isSuccess={
-            !errors.flightDetails?.airline &&
-            !errors.flightDetails?.message &&
-            dirtyFields.flightDetails?.airline
+            !errors.flightDetails?.airline && dirtyFields.flightDetails?.airline
               ? true
               : false
           }
           successMsg=""
-          isError={
-            errors.flightDetails?.airline || errors.flightDetails?.message
-              ? true
-              : false
-          }
-          errorMsg={
-            errors.flightDetails?.airline?.message ||
-            errors.flightDetails?.message
-          }
+          isError={errors.flightDetails?.airline ? true : false}
+          errorMsg={errors.flightDetails?.airline?.message}
           {...register("flightDetails.airline")}
         />
 
@@ -176,21 +177,13 @@ export default function VisaRequiredDetailsFrom() {
           placeholder="Type Flight Number"
           isSuccess={
             !errors.flightDetails?.flightNumber &&
-            !errors.flightDetails?.message &&
             dirtyFields.flightDetails?.flightNumber
               ? true
               : false
           }
           successMsg=""
-          isError={
-            errors.flightDetails?.flightNumber || errors.flightDetails?.message
-              ? true
-              : false
-          }
-          errorMsg={
-            errors.flightDetails?.flightNumber?.message ||
-            errors.flightDetails?.message
-          }
+          isError={errors.flightDetails?.flightNumber ? true : false}
+          errorMsg={errors.flightDetails?.flightNumber?.message}
           {...register("flightDetails.flightNumber")}
         />
 
@@ -202,22 +195,13 @@ export default function VisaRequiredDetailsFrom() {
           type="string"
           placeholder="Type your full name"
           isSuccess={
-            !errors.personalInfo?.fullName &&
-            !errors.personalInfo?.message &&
-            dirtyFields.personalInfo?.fullName
+            !errors.personalInfo?.fullName && dirtyFields.personalInfo?.fullName
               ? true
               : false
           }
           successMsg=""
-          isError={
-            errors.personalInfo?.fullName || errors.personalInfo?.message
-              ? true
-              : false
-          }
-          errorMsg={
-            errors.personalInfo?.fullName?.message ||
-            errors.personalInfo?.message
-          }
+          isError={errors.personalInfo?.fullName ? true : false}
+          errorMsg={errors.personalInfo?.fullName?.message}
           {...register("personalInfo.fullName")}
         />
 
@@ -226,50 +210,34 @@ export default function VisaRequiredDetailsFrom() {
           type="date"
           isSuccess={
             !errors.personalInfo?.dateOfBirth &&
-            !errors.personalInfo?.message &&
             dirtyFields.personalInfo?.dateOfBirth
               ? true
               : false
           }
           successMsg="Valid Date Of Birth"
-          isError={
-            errors.personalInfo?.dateOfBirth || errors.personalInfo?.message
-              ? true
-              : false
-          }
-          errorMsg={
-            errors.personalInfo?.dateOfBirth?.message ||
-            errors.personalInfo?.message
-          }
+          isError={errors.personalInfo?.dateOfBirth ? true : false}
+          errorMsg={errors.personalInfo?.dateOfBirth?.message}
           {...register("personalInfo.dateOfBirth")}
         />
 
         <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
           **Employment Details
         </h5>
-        <FormInput
-          label="Employment Status"
-          type="radio"
-          isSuccess={
-            !errors.employmentInfo?.employmentStatus &&
-            !errors.employmentInfo?.message &&
-            dirtyFields.employmentInfo?.employmentStatus
-              ? true
-              : false
-          }
-          successMsg=""
-          isError={
-            errors.employmentInfo?.employmentStatus ||
-            errors.employmentInfo?.message
-              ? true
-              : false
-          }
-          errorMsg={
-            errors.employmentInfo?.employmentStatus?.message ||
-            errors.employmentInfo?.message
-          }
-          {...register("employmentInfo.employmentStatus")}
-        />
+        <ul className="items-center w-full text-sm font-medium text-gray-900 text-center rounded-lg sm:flex">
+          {employmentStatus.map((status) => (
+            <li
+              key={status}
+              className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r"
+            >
+              <FormInput
+                label={status.toUpperCase()}
+                type="radio"
+                value={status}
+                {...register("employmentInfo.employmentStatus")}
+              />
+            </li>
+          ))}
+        </ul>
 
         <FormInput
           label="Income"

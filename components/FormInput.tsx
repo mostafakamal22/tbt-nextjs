@@ -8,8 +8,8 @@ interface FormInputProps
   placeholder?: string;
   successMsg?: string;
   errorMsg?: string;
-  isError: boolean;
-  isSuccess: boolean;
+  isError?: boolean;
+  isSuccess?: boolean;
 }
 
 const FormInput = forwardRef<
