@@ -18,21 +18,11 @@ export default function TicketRequiredDetailsForm() {
     formState: { errors, isSubmitting, isLoading, dirtyFields },
   } = useForm<TicketSchemaType>({
     resolver: zodResolver(TicketSchema),
-    // defaultValues: {
-    //   passportInfo: {
-    //     passportNumber: "Passport ID",
-    //   },
-    //   employmentInfo: {
-    //     employmentStatus: "employed",
-    //   },
-    // },
     mode: "all",
   });
 
   const onSubmit: SubmitHandler<TicketSchemaType> = (data) => {
-    console.log(data);
     const result = TicketSchema.safeParse(data);
-    console.log(result.success);
 
     if (result.success) {
       setArrivalCity(data.arrivalCity);
