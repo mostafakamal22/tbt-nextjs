@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
 
   const service = { ...body } as Service;
-  console.log(service);
+
   if (!service) {
     return new NextResponse("Please provide item to purchase", { status: 400 });
   }

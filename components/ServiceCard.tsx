@@ -10,6 +10,10 @@ import useModal from "@/hooks/useModal";
 import VisaRequiredDetailsFrom from "./VisaRequiredDetailsForm";
 import useVisaDetails from "@/hooks/useVisaDetails";
 import { VisaSchema, VisaSchemaType } from "@/zodSchemas/visaSchema";
+import { formatMetaData } from "@/helpers/formatMetaData";
+import useTicketDetails from "@/hooks/useTicketDetails";
+import { TicketSchema, TicketSchemaType } from "@/zodSchemas/ticketSchema";
+import TicketRequiredDetailsForm from "./TicketRequiredDetailsForm";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -33,6 +37,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
     purposeOfVisit,
   } = useVisaDetails();
 
+  const {
+    departureCity,
+    arrivalCity,
+    travelDates: ticketTravelDates,
+    passenger,
+  } = useTicketDetails();
+
   const servicePrice = service?.default_price
     ? findAndFormatPrice(service?.default_price?.toString(), prices)
     : null;
@@ -40,47 +51,53 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
   if (!servicePrice) return null;
 
   const handleSubmit = async () => {
-    const visaDetails: VisaSchemaType = {
-      passportInfo,
-      travelDates,
-      flightDetails,
-      personalInfo,
-      employmentInfo,
-      purposeOfVisit,
-    };
-    const validateData = VisaSchema.safeParse(visaDetails);
-    console.log(validateData);
+    let metaData;
+    let serviceDetails;
 
-    if (!validateData?.success) {
-      const visaFrom = <VisaRequiredDetailsFrom />;
-      setChildren(visaFrom);
+    switch (service.metadata?.type) {
+      case "ticket":
+        serviceDetails = {
+          departureCity,
+          arrivalCity,
+          travelDates: ticketTravelDates,
+          passenger,
+        } as TicketSchemaType;
+        const validateTicketData = TicketSchema.safeParse(serviceDetails);
 
-      openModal();
-      return;
-    }
+        if (!validateTicketData?.success) {
+          const ticketFrom = <TicketRequiredDetailsForm />;
+          setChildren(ticketFrom);
 
-    const metaData = Object.entries(visaDetails).reduce<{ [k: string]: any }>(
-      (acc, [key, value]) => {
-        if (typeof value === "object" && !Array.isArray(value)) {
-          acc = {
-            ...acc,
-            ...Object.entries(value).reduce<{ [k: string]: any }>(
-              (nestedAcc, [nestedKey, nestedValue]) => {
-                nestedAcc[`${nestedKey}`] = nestedValue;
-                return nestedAcc;
-              },
-              {}
-            ),
-          };
-        } else {
-          acc[key] = value;
+          openModal();
+          return;
         }
-        return acc;
-      },
-      {}
-    );
 
-    console.log(metaData);
+        metaData = formatMetaData(serviceDetails);
+        break;
+      case "visa":
+        serviceDetails = {
+          passportInfo,
+          travelDates,
+          flightDetails,
+          personalInfo,
+          employmentInfo,
+          purposeOfVisit,
+        } as VisaSchemaType;
+        const validateVisaData = VisaSchema.safeParse(serviceDetails);
+
+        if (!validateVisaData?.success) {
+          const visaFrom = <VisaRequiredDetailsFrom />;
+          setChildren(visaFrom);
+
+          openModal();
+          return;
+        }
+
+        metaData = formatMetaData(serviceDetails);
+        break;
+      default:
+        break;
+    }
 
     try {
       const sessionURL = await postData({

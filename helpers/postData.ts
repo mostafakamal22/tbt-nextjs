@@ -12,8 +12,6 @@ export const postData = async ({
   url: string;
   data?: Service;
 }) => {
-  console.log("posting,", url, data);
-
   const res: Response = await fetch(url, {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
