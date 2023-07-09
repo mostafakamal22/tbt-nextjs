@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, forwardRef } from "react";
+import { HTMLAttributes, HTMLInputTypeAttribute, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface FormInputProps
@@ -10,6 +10,9 @@ interface FormInputProps
   errorMsg?: string;
   isError?: boolean;
   isSuccess?: boolean;
+  inputClassNames?: HTMLAttributes<HTMLInputElement>["className"];
+  labelClassNames?: HTMLAttributes<HTMLLabelElement>["className"];
+  containerClassNames?: HTMLAttributes<HTMLDivElement>["className"];
 }
 
 const FormInput = forwardRef<
@@ -26,6 +29,9 @@ const FormInput = forwardRef<
       errorMsg,
       isError,
       isSuccess,
+      inputClassNames,
+      labelClassNames,
+      containerClassNames,
       ...props
     },
     ref
@@ -37,6 +43,7 @@ const FormInput = forwardRef<
           name={name}
           className={twMerge(
             "bg-blue-50 border border-blue-500 text-blue-900 placeholder-blue-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+            inputClassNames && inputClassNames,
             isSuccess &&
               "bg-green-50 border-green-500 text-green-900 focus:ring-green-500 focus:border-green-500",
             isError &&
@@ -53,6 +60,7 @@ const FormInput = forwardRef<
           name={name}
           className={twMerge(
             "bg-blue-50 border border-blue-500 text-blue-900 placeholder-blue-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+            inputClassNames && inputClassNames,
             isSuccess &&
               "bg-green-50 border-green-500 text-green-900 focus:ring-green-500 focus:border-green-500",
             isError &&
@@ -65,11 +73,14 @@ const FormInput = forwardRef<
       );
 
     let content = (
-      <div className="mb-4">
+      <div
+        className={twMerge("mb-4", containerClassNames && containerClassNames)}
+      >
         <label
           htmlFor={name}
           className={twMerge(
             "block mb-2 text-sm font-medium",
+            labelClassNames && labelClassNames,
             isSuccess && "text-green-700",
             isError && "text-red-700"
           )}

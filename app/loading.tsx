@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { PuffLoader } from "react-spinners";
+import PuffLoader from "react-spinners/PuffLoader";
 
 export default function Loading() {
   const override: CSSProperties = {
@@ -13,6 +13,7 @@ export default function Loading() {
         color="#38bdf8"
         cssOverride={override}
         size={100}
+        loading={true}
         aria-label="Loading Spinner"
         data-testid="loader"
       />
