@@ -7,7 +7,7 @@ import useVisaDetails from "@/hooks/useVisaDetails";
 import useModal from "@/hooks/useModal";
 import SuccessMSG from "./SuccessMsg";
 
-export default function VisaRequiredDetailsFrom() {
+export default function VisaRequiredDetailsForm() {
   const { openModal, setChildren } = useModal();
 
   const {
@@ -50,8 +50,8 @@ export default function VisaRequiredDetailsFrom() {
 
       const successMsg = (
         <SuccessMSG
-          title="Details Saved Successfully!"
-          desc="Now you can Book a Visa."
+          title="Visa Details Saved"
+          desc="Your visa details have been saved successfully. You can now proceed to book your visa."
         />
       );
       setChildren(successMsg);
@@ -88,12 +88,10 @@ export default function VisaRequiredDetailsFrom() {
           label="Passport Number"
           type="text"
           placeholder="Type Your Passport Number"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.passportInfo?.passportNumber &&
-            dirtyFields.passportInfo?.passportNumber
-              ? true
-              : false
-          }
+              dirtyFields.passportInfo?.passportNumber
+          )}
           successMsg="Valid Passport Number"
           isError={errors.passportInfo?.passportNumber ? true : false}
           errorMsg={errors.passportInfo?.passportNumber?.message}
@@ -103,19 +101,15 @@ export default function VisaRequiredDetailsFrom() {
         <FormInput
           label="Passport Date Of Issuance"
           type="date"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.passportInfo?.dateOfIssuance &&
-            !errors.passportInfo?.message &&
-            dirtyFields.passportInfo?.dateOfIssuance
-              ? true
-              : false
-          }
+              !errors.passportInfo?.message &&
+              dirtyFields.passportInfo?.dateOfIssuance
+          )}
           successMsg="Valid Passport Date Of Issuance"
-          isError={
+          isError={Boolean(
             errors.passportInfo?.dateOfIssuance || errors.passportInfo?.message
-              ? true
-              : false
-          }
+          )}
           errorMsg={
             errors.passportInfo?.dateOfIssuance?.message ||
             errors.passportInfo?.message
@@ -126,19 +120,15 @@ export default function VisaRequiredDetailsFrom() {
         <FormInput
           label="Passport Expiration Date"
           type="date"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.passportInfo?.expirationDate &&
-            !errors.passportInfo?.message &&
-            dirtyFields.passportInfo?.expirationDate
-              ? true
-              : false
-          }
+              !errors.passportInfo?.message &&
+              dirtyFields.passportInfo?.expirationDate
+          )}
           successMsg="Valid Passport Expiration Date"
-          isError={
+          isError={Boolean(
             errors.passportInfo?.expirationDate || errors.passportInfo?.message
-              ? true
-              : false
-          }
+          )}
           errorMsg={
             errors.passportInfo?.expirationDate?.message ||
             errors.passportInfo?.message
@@ -152,19 +142,15 @@ export default function VisaRequiredDetailsFrom() {
         <FormInput
           label="Date Of Departure"
           type="date"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.travelDates?.departure &&
-            !errors.travelDates?.message &&
-            dirtyFields.travelDates?.departure
-              ? true
-              : false
-          }
+              !errors.travelDates?.message &&
+              dirtyFields.travelDates?.departure
+          )}
           successMsg="Valid Date Of Departure"
-          isError={
+          isError={Boolean(
             errors.travelDates?.departure || errors.travelDates?.message
-              ? true
-              : false
-          }
+          )}
           errorMsg={
             errors.travelDates?.departure?.message ||
             errors.travelDates?.message
@@ -175,19 +161,15 @@ export default function VisaRequiredDetailsFrom() {
         <FormInput
           label="Date Of Return"
           type="date"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.travelDates?.return &&
-            !errors.travelDates?.message &&
-            dirtyFields.travelDates?.return
-              ? true
-              : false
-          }
+              !errors.travelDates?.message &&
+              dirtyFields.travelDates?.return
+          )}
           successMsg="Valid Date Of Return"
-          isError={
+          isError={Boolean(
             errors.travelDates?.return || errors.travelDates?.message
-              ? true
-              : false
-          }
+          )}
           errorMsg={
             errors.travelDates?.return?.message || errors.travelDates?.message
           }
@@ -201,13 +183,11 @@ export default function VisaRequiredDetailsFrom() {
           label="Airline"
           type="string"
           placeholder="Type Airline Name"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.flightDetails?.airline && dirtyFields.flightDetails?.airline
-              ? true
-              : false
-          }
+          )}
           successMsg=""
-          isError={errors.flightDetails?.airline ? true : false}
+          isError={Boolean(errors.flightDetails?.airline)}
           errorMsg={errors.flightDetails?.airline?.message}
           {...register("flightDetails.airline")}
         />
@@ -216,14 +196,12 @@ export default function VisaRequiredDetailsFrom() {
           label="Flight Number"
           type="string"
           placeholder="Type Flight Number"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.flightDetails?.flightNumber &&
-            dirtyFields.flightDetails?.flightNumber
-              ? true
-              : false
-          }
+              dirtyFields.flightDetails?.flightNumber
+          )}
           successMsg=""
-          isError={errors.flightDetails?.flightNumber ? true : false}
+          isError={Boolean(errors.flightDetails?.flightNumber)}
           errorMsg={errors.flightDetails?.flightNumber?.message}
           {...register("flightDetails.flightNumber")}
         />
@@ -235,13 +213,11 @@ export default function VisaRequiredDetailsFrom() {
           label="Full Name (As Written on Passport)"
           type="string"
           placeholder="Type your full name"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.personalInfo?.fullName && dirtyFields.personalInfo?.fullName
-              ? true
-              : false
-          }
+          )}
           successMsg=""
-          isError={errors.personalInfo?.fullName ? true : false}
+          isError={Boolean(errors.personalInfo?.fullName)}
           errorMsg={errors.personalInfo?.fullName?.message}
           {...register("personalInfo.fullName")}
         />
@@ -249,14 +225,12 @@ export default function VisaRequiredDetailsFrom() {
         <FormInput
           label="Date Of Birth"
           type="date"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.personalInfo?.dateOfBirth &&
-            dirtyFields.personalInfo?.dateOfBirth
-              ? true
-              : false
-          }
+              dirtyFields.personalInfo?.dateOfBirth
+          )}
           successMsg="Valid Date Of Birth"
-          isError={errors.personalInfo?.dateOfBirth ? true : false}
+          isError={Boolean(errors.personalInfo?.dateOfBirth)}
           errorMsg={errors.personalInfo?.dateOfBirth?.message}
           {...register("personalInfo.dateOfBirth")}
         />
@@ -284,13 +258,11 @@ export default function VisaRequiredDetailsFrom() {
           label="Income"
           type="number"
           placeholder="Type you income"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.employmentInfo?.income && dirtyFields.employmentInfo?.income
-              ? true
-              : false
-          }
+          )}
           successMsg=""
-          isError={errors.employmentInfo?.income ? true : false}
+          isError={Boolean(errors.employmentInfo?.income)}
           errorMsg={errors.employmentInfo?.income?.message}
           {...register("employmentInfo.income")}
         />
@@ -302,13 +274,11 @@ export default function VisaRequiredDetailsFrom() {
           label="Purpose Of Visit"
           type="textarea"
           placeholder="Type purpose of visit"
-          isSuccess={
+          isSuccess={Boolean(
             !errors.purposeOfVisit?.message && dirtyFields.purposeOfVisit
-              ? true
-              : false
-          }
+          )}
           successMsg=""
-          isError={errors.purposeOfVisit?.message ? true : false}
+          isError={Boolean(errors.purposeOfVisit?.message)}
           errorMsg={errors.purposeOfVisit?.message}
           {...register("purposeOfVisit")}
         />

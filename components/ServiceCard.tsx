@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Stripe from "stripe";
 import ErrorMsg from "./ErrorMsg";
 import useModal from "@/hooks/useModal";
-import VisaRequiredDetailsFrom from "./VisaRequiredDetailsFrom";
+import VisaRequiredDetailsFrom from "./VisaRequiredDetailsForm";
 import useVisaDetails from "@/hooks/useVisaDetails";
 import { VisaSchema, VisaSchemaType } from "@/zodSchemas/visaSchema";
 
