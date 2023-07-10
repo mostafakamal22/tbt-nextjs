@@ -77,7 +77,7 @@ const FormInput = forwardRef<
         className={twMerge("mb-4", containerClassNames && containerClassNames)}
       >
         <label
-          htmlFor={name}
+          htmlFor={type === "radio" || type === "checkbox" ? undefined : name}
           className={twMerge(
             "block mb-2 text-sm font-medium",
             labelClassNames && labelClassNames,
@@ -87,6 +87,7 @@ const FormInput = forwardRef<
         >
           {label}
         </label>
+
         {InputElement}
 
         {isSuccess && (

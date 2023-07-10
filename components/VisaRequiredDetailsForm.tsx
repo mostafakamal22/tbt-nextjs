@@ -241,10 +241,12 @@ export default function VisaRequiredDetailsForm() {
             className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r"
           >
             <FormInput
-              label={status.toUpperCase()}
+              label={status}
               type="radio"
               value={status}
               {...register("employmentInfo.employmentStatus")}
+              labelClassNames="capitalize"
+              inputClassNames="accent-emerald-600"
             />
           </li>
         ))}
