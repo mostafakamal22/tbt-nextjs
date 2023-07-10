@@ -10,8 +10,8 @@ interface FormInputProps
   errorMsg?: string;
   isError?: boolean;
   isSuccess?: boolean;
-  inputClassNames?: HTMLAttributes<HTMLInputElement>["className"];
-  labelClassNames?: HTMLAttributes<HTMLLabelElement>["className"];
+  inputClassNames?: HTMLAttributes<HTMLLabelElement>["className"];
+  labelClassNames?: HTMLAttributes<HTMLInputElement>["className"];
   containerClassNames?: HTMLAttributes<HTMLDivElement>["className"];
 }
 
