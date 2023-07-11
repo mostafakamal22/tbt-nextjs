@@ -62,6 +62,36 @@ export default function TicketRequiredDetailsForm() {
       </p>
 
       <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
+        **Passenger Details
+      </h5>
+      <FormInput
+        label="Full Name (As Written on Passport)"
+        type="string"
+        placeholder="Type your full name"
+        isSuccess={Boolean(
+          !errors.passenger?.fullName && dirtyFields.passenger?.fullName
+        )}
+        successMsg=""
+        isError={Boolean(errors.passenger?.fullName)}
+        errorMsg={errors.passenger?.fullName?.message}
+        {...register("passenger.fullName")}
+      />
+
+      <FormInput
+        label="Passport Number"
+        type="string"
+        placeholder="Type your Passport Number"
+        isSuccess={Boolean(
+          !errors.passenger?.passportNumber &&
+            dirtyFields.passenger?.passportNumber
+        )}
+        successMsg="Valid Passpport Number"
+        isError={Boolean(errors.passenger?.passportNumber)}
+        errorMsg={errors.passenger?.passportNumber?.message}
+        {...register("passenger.passportNumber")}
+      />
+
+      <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
         **Travel Dates
       </h5>
       <FormInput
@@ -123,38 +153,6 @@ export default function TicketRequiredDetailsForm() {
         isError={Boolean(errors.arrivalCity)}
         errorMsg={errors.arrivalCity?.message}
         {...register("arrivalCity")}
-      />
-
-      <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
-        **Passenger Details
-      </h5>
-      <FormInput
-        label="Full Name (As Written on Passport)"
-        type="string"
-        placeholder="Type your full name"
-        isSuccess={
-          !errors.passenger?.fullName && dirtyFields.passenger?.fullName
-            ? true
-            : false
-        }
-        successMsg=""
-        isError={Boolean(errors.passenger?.fullName)}
-        errorMsg={errors.passenger?.fullName?.message}
-        {...register("passenger.fullName")}
-      />
-
-      <FormInput
-        label="Passport Number"
-        type="string"
-        placeholder="Type your Passport Number"
-        isSuccess={Boolean(
-          !errors.passenger?.passportNumber &&
-            dirtyFields.passenger?.passportNumber
-        )}
-        successMsg="Valid Passpport Number"
-        isError={Boolean(errors.passenger?.passportNumber)}
-        errorMsg={errors.passenger?.passportNumber?.message}
-        {...register("passenger.passportNumber")}
       />
 
       <button
