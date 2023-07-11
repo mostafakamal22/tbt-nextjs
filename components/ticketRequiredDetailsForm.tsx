@@ -6,6 +6,7 @@ import FormInput from "./FormInput";
 import useTicketDetails from "@/hooks/useTicketDetails";
 import useModal from "@/hooks/useModal";
 import SuccessMSG from "./SuccessMsg";
+import ClientDataPrivacy from "./ClientDataPrivacy";
 
 export default function TicketRequiredDetailsForm() {
   const { openModal, setChildren } = useModal();
@@ -55,11 +56,8 @@ export default function TicketRequiredDetailsForm() {
         </span>{" "}
         Needed Details:-
       </h2>
-      <p className="text-sm bg-yellow-50 text-yellow-900 p-2 rounded shadow">
-        Your data will be automatically erased upon refreshing your browser or
-        after the payment process is complete, so you can trust that your
-        privacy is protected.
-      </p>
+
+      <ClientDataPrivacy />
 
       <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
         **Passenger Details

@@ -6,6 +6,7 @@ import FormInput from "./FormInput";
 import useVisaDetails from "@/hooks/useVisaDetails";
 import useModal from "@/hooks/useModal";
 import SuccessMSG from "./SuccessMsg";
+import ClientDataPrivacy from "./ClientDataPrivacy";
 
 export default function VisaRequiredDetailsForm() {
   const { openModal, setChildren } = useModal();
@@ -71,11 +72,8 @@ export default function VisaRequiredDetailsForm() {
         </span>{" "}
         Needed Details:-
       </h2>
-      <p className="text-sm bg-yellow-50 text-yellow-900 p-2 rounded shadow">
-        Your data will be automatically erased upon refreshing your browser or
-        after the payment process is complete, so you can trust that your
-        privacy is protected.
-      </p>
+
+      <ClientDataPrivacy />
 
       <h5 className="text-xl font-bold mb-2 p-2 bg-emerald-100 rounded shadow">
         **Passport information
@@ -90,7 +88,7 @@ export default function VisaRequiredDetailsForm() {
             dirtyFields.passportInfo?.passportNumber
         )}
         successMsg="Valid Passport Number"
-        isError={errors.passportInfo?.passportNumber ? true : false}
+        isError={Boolean(errors.passportInfo?.passportNumber)}
         errorMsg={errors.passportInfo?.passportNumber?.message}
         {...register("passportInfo.passportNumber")}
       />
