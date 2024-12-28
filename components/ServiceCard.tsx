@@ -8,7 +8,7 @@ import Stripe from "stripe";
 import ErrorMsg from "./ErrorMsg";
 import useModal from "@/hooks/useModal";
 import VisaRequiredDetailsFrom from "@/components/VisaRequiredDetailsForm";
-import TicketRequiredDetailsForm from "./TicketRequiredDetailsForm";
+import TicketRequiredDetailsForm from "@/components/Temp";
 import useVisaDetails from "@/hooks/useVisaDetails";
 import useTicketDetails from "@/hooks/useTicketDetails";
 import { VisaSchema, VisaSchemaType } from "@/zodSchemas/visaSchema";
