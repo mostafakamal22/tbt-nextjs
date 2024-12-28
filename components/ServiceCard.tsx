@@ -13,7 +13,7 @@ import { VisaSchema, VisaSchemaType } from "@/zodSchemas/visaSchema";
 import { formatMetaData } from "@/helpers/formatMetaData";
 import useTicketDetails from "@/hooks/useTicketDetails";
 import { TicketSchema, TicketSchemaType } from "@/zodSchemas/ticketSchema";
-import TicketRequiredDetailsForm from "./TicketRequiredDetailsForm";
+import TicketRequiredDetailsForm from "@/components/TicketRequiredDetailsForm";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -53,6 +53,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
   const handleSubmit = async () => {
     let metaData;
     let serviceDetails;
+
+    console.log(service);
 
     switch (service.metadata?.type) {
       case "ticket":
@@ -96,7 +98,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
         metaData = formatMetaData(serviceDetails);
         break;
       default:
-        break;
+        console.log("first");
+        return;
     }
 
     try {
