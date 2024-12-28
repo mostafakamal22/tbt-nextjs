@@ -158,6 +158,7 @@ export default function Contacts() {
                     <a
                       href={socialLink.link}
                       target="_blank"
+                      rel="noreferrer"
                       title={socialLink.linkTitle}
                     >
                       <Image
