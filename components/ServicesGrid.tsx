@@ -13,13 +13,15 @@ interface ServicesGridProps {
 }
 
 const ServicesGrid: React.FC<ServicesGridProps> = ({ services, prices }) => {
-  const { setChildren, openModal } = useModal();
+  const { setChildren, openModal, setIsFromModal } = useModal();
   const query = useSearchParams();
   const successPayemnt = query.get("success");
   const cancelledPayemnt = query.get("canceled");
 
   useEffect(() => {
     if (successPayemnt) {
+      setIsFromModal(false);
+
       const successMSG = (
         <SuccessMsg
           title="Successful Payment!"
@@ -31,6 +33,8 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ services, prices }) => {
     }
 
     if (cancelledPayemnt) {
+      setIsFromModal(false);
+
       const errorMSG = (
         <ErrorMsg
           title="Payment Cancelled!"
@@ -40,7 +44,13 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ services, prices }) => {
       setChildren(errorMSG);
       openModal();
     }
-  }, [successPayemnt, cancelledPayemnt, openModal, setChildren]);
+  }, [
+    successPayemnt,
+    cancelledPayemnt,
+    openModal,
+    setChildren,
+    setIsFromModal,
+  ]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

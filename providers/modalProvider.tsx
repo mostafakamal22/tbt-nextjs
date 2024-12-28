@@ -7,7 +7,7 @@ import useModal from "@/hooks/useModal";
 const ModalProvider: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
-  const { isOpen, closeModal, children } = useModal();
+  const { isOpen, closeModal, children, isFormModal } = useModal();
 
   const onChange = (open: boolean) => {
     if (!open) {
@@ -24,7 +24,7 @@ const ModalProvider: React.FC = () => {
   }
 
   return (
-    <Modal isOpen={isOpen} onChange={onChange}>
+    <Modal isOpen={isOpen} isFormModal={isFormModal} onChange={onChange}>
       {children}
     </Modal>
   );

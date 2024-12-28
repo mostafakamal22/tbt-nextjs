@@ -25,7 +25,7 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
-  const { openModal, setChildren } = useModal();
+  const { openModal, setChildren, setIsFromModal } = useModal();
   const router = useRouter();
 
   const {
@@ -54,8 +54,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
     let metaData;
     let serviceDetails;
 
-    console.log(service);
-
     switch (service.metadata?.type) {
       case "ticket":
         serviceDetails = {
@@ -67,6 +65,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
         const validateTicketData = TicketSchema.safeParse(serviceDetails);
 
         if (!validateTicketData?.success) {
+          setIsFromModal(true);
+
           const ticketFrom = <TicketRequiredDetailsForm />;
           setChildren(ticketFrom);
 
@@ -88,6 +88,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
         const validateVisaData = VisaSchema.safeParse(serviceDetails);
 
         if (!validateVisaData?.success) {
+          setIsFromModal(true);
+
           const visaFrom = <VisaRequiredDetailsFrom />;
           setChildren(visaFrom);
 
@@ -98,7 +100,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
         metaData = formatMetaData(serviceDetails);
         break;
       default:
-        console.log("first");
         return;
     }
 
@@ -116,6 +117,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, prices }) => {
       router.push(sessionURL);
     } catch (error) {
       console.log((error as Error).message);
+      setIsFromModal(false);
 
       const errorMSG = (
         <ErrorMsg

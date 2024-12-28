@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { set, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TicketSchema } from "@/zodSchemas/ticketSchema";
 import type { TicketSchemaType } from "@/zodSchemas/ticketSchema";
@@ -10,7 +10,7 @@ import ClientDataPrivacy from "./ClientDataPrivacy";
 import React from "react";
 
 export default function TicketRequiredDetailsForm() {
-  const { openModal, setChildren } = useModal();
+  const { openModal, setChildren, setIsFromModal } = useModal();
 
   const { setArrivalCity, setDepartureCity, setTravelDates, setPassenger } =
     useTicketDetails();
@@ -31,6 +31,8 @@ export default function TicketRequiredDetailsForm() {
       setDepartureCity(data.departureCity);
       setTravelDates(data.travelDates);
       setPassenger(data.passenger);
+
+      setIsFromModal(false);
 
       const successMsg = (
         <SuccessMSG

@@ -9,7 +9,7 @@ import SuccessMSG from "./SuccessMsg";
 import ClientDataPrivacy from "./ClientDataPrivacy";
 
 export default function VisaRequiredDetailsForm() {
-  const { openModal, setChildren } = useModal();
+  const { openModal, setChildren, setIsFromModal } = useModal();
 
   const {
     setPassportInfo,
@@ -46,6 +46,8 @@ export default function VisaRequiredDetailsForm() {
       setPersonalInfo(data.personalInfo);
       setEmploymentInfo(data.employmentInfo);
       setPurposeOfVisit(data.purposeOfVisit);
+
+      setIsFromModal(false);
 
       const successMsg = (
         <SuccessMSG

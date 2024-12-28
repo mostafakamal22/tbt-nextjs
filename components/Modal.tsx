@@ -8,6 +8,7 @@ interface ModalProps {
   onChange: (open: boolean) => void;
   title?: string;
   description?: string;
+  isFormModal?: boolean;
   children: React.ReactNode;
 }
 
@@ -16,12 +17,17 @@ const Modal: React.FC<ModalProps> = ({
   onChange,
   title,
   description,
+  isFormModal,
   children,
 }) => (
   <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
     <Dialog.Portal>
       <Dialog.Overlay className="DialogOverlay" />
-      <Dialog.Content className="DialogContent bg-emerald-50 scrollbar-thin scrollbar-thumb-emerald-200  scrollbar-track-transparent">
+      <Dialog.Content
+        className={`DialogContent bg-emerald-50 scrollbar-thin scrollbar-thumb-emerald-200  scrollbar-track-transparent ${
+          isFormModal ? "max-w-2xl" : ""
+        }`}
+      >
         {title && <Dialog.Title className="DialogTitle">{title}</Dialog.Title>}
         {description && (
           <Dialog.Description className="DialogDescription">
