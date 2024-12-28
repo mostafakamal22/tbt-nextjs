@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 type ServiceDetails = {
@@ -109,10 +110,10 @@ export default function OurServices() {
         </div>
       </div>
 
-      <button title="تواصــل معنـا" className="btn-primary">
-        <a className="relative z-20 drop-shadow-lg" href="#contacts">
-          تواصــل معنـا
-        </a>
+      <button title="إحجــز الأن" className="btn-primary">
+        <Link className="relative z-20 drop-shadow-lg" href="/services">
+          إحجــز الأن
+        </Link>
       </button>
     </section>
   );

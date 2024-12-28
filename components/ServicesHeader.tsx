@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { AiFillHome } from "react-icons/ai";
+
 const ServicesHeader: React.FC = () => {
   return (
     <header className="mb-4 p-6">
@@ -13,6 +16,16 @@ const ServicesHeader: React.FC = () => {
           We offer a range of services to help you with your travels, from visas
           to flight tickets and more.
         </p>
+
+        <button
+          title="Go Home"
+          className="btn-primary px-4 py-2 text-lg flex items-center mx-auto"
+        >
+          <AiFillHome className="inline-block mr-1 relative z-20" />
+          <Link className="relative z-20 drop-shadow-lg" href="/">
+            Go Home
+          </Link>
+        </button>
       </div>
     </header>
   );
