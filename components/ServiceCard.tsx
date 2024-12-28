@@ -8,12 +8,12 @@ import Stripe from "stripe";
 import ErrorMsg from "./ErrorMsg";
 import useModal from "@/hooks/useModal";
 import VisaRequiredDetailsFrom from "./VisaRequiredDetailsForm";
+import TicketRequiredDetailsForm from "./TicketRequiredDetailsForm";
 import useVisaDetails from "@/hooks/useVisaDetails";
+import useTicketDetails from "@/hooks/useTicketDetails";
 import { VisaSchema, VisaSchemaType } from "@/zodSchemas/visaSchema";
 import { formatMetaData } from "@/helpers/formatMetaData";
-import useTicketDetails from "@/hooks/useTicketDetails";
 import { TicketSchema, TicketSchemaType } from "@/zodSchemas/ticketSchema";
-import TicketRequiredDetailsForm from "@/components/TicketRequiredDetailsForm";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!

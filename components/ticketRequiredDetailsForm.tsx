@@ -7,6 +7,7 @@ import useTicketDetails from "@/hooks/useTicketDetails";
 import useModal from "@/hooks/useModal";
 import SuccessMSG from "./SuccessMsg";
 import ClientDataPrivacy from "./ClientDataPrivacy";
+import React from "react";
 
 export default function TicketRequiredDetailsForm() {
   const { openModal, setChildren } = useModal();
